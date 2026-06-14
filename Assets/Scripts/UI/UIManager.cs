@@ -16,11 +16,12 @@ namespace VertigoCase.UI
         [SerializeField] private ClaimPanel           _claimPanel;
         [SerializeField] private TopBarUI             _topBarUI;
 
-        private GameManager _gameManager;
+        // Typed as the interface so UIManager is decoupled from MonoBehaviour specifics.
+        private IGameManager _gameManager;
 
         // ── Public initialisation (called by GameManager) ──────────────────────
 
-        public void Initialize(GameManager gameManager)
+        public void Initialize(IGameManager gameManager)
         {
             _gameManager = gameManager;
 
@@ -30,7 +31,6 @@ namespace VertigoCase.UI
             _gameManager.OnRewardCollected += HandleRewardCollected;
             _gameManager.OnBombHit         += HandleBombHit;
             _gameManager.OnRewardsClaimed  += HandleRewardsClaimed;
-            _gameManager.OnGameOver        += HandleGameOver;
             _gameManager.OnCurrencyChanged += HandleCurrencyChanged;
 
             // Wire all button listeners (spec: no Inspector OnClick)
@@ -42,18 +42,8 @@ namespace VertigoCase.UI
                 onReviveClicked:  () => { if (!_gameManager.RequestRevive()) _revivePopupPanel.ShakeReviveButton(); },
                 onGiveUpClicked:  _gameManager.RequestGiveUp);
 
-            _claimPanel.Initialize(
-                onConfirmClicked: () =>
-                {
-                    if (_gameManager.CurrentState == GameState.Claiming)
-                    {
-                        _gameManager.ConfirmClaim();
-                    }
-                    else if (_gameManager.CurrentState == GameState.GameOver)
-                    {
-                        _gameManager.RestartAfterGameOver();
-                    }
-                });
+            // Give-up resets the session directly to Idle (no separate GameOver state).
+            _claimPanel.Initialize(onConfirmClicked: _gameManager.ConfirmClaim);
 
             // Set initial UI state
             SetPanelVisibility(GameState.Idle);
@@ -68,7 +58,6 @@ namespace VertigoCase.UI
             _gameManager.OnRewardCollected -= HandleRewardCollected;
             _gameManager.OnBombHit         -= HandleBombHit;
             _gameManager.OnRewardsClaimed  -= HandleRewardsClaimed;
-            _gameManager.OnGameOver        -= HandleGameOver;
             _gameManager.OnCurrencyChanged -= HandleCurrencyChanged;
         }
 
@@ -80,22 +69,14 @@ namespace VertigoCase.UI
             _wheelPanel.OnStateChanged(previous, next);
 
             if (next == GameState.Claiming)
-            {
                 _claimPanel.ShowRewards(_gameManager.CollectedRewards);
-            }
-            else if (next == GameState.GameOver)
-            {
-                _gameManager.RestartAfterGameOver();
-            }
             else if (next == GameState.RevivePrompt)
-            {
                 _revivePopupPanel.UpdateReviveCost(_gameManager.GetCurrentReviveCost());
-            }
 
+            // After a successful revive OR a give-up, restore the reward display.
+            // CollectedRewards is already empty after a give-up, so this clears the panel.
             if (previous == GameState.RevivePrompt && next == GameState.Idle)
-            {
                 _rewardContainerPanel.RestoreRewards(_gameManager.CollectedRewards);
-            }
         }
 
         private void HandleZoneChanged(int zoneIndex)
@@ -117,11 +98,6 @@ namespace VertigoCase.UI
         private void HandleRewardsClaimed(System.Collections.Generic.IReadOnlyList<CollectedReward> rewards)
         {
             _claimPanel.ShowRewards(rewards);
-            _rewardContainerPanel.Clear();
-        }
-
-        private void HandleGameOver()
-        {
             _rewardContainerPanel.Clear();
         }
 

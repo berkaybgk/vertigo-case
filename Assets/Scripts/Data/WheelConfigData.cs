@@ -60,18 +60,18 @@ namespace VertigoCase.Data
         public float       SpinDuration  => _spinDuration;
         public int         MinRotations  => _minRotations;
 
-        // Number of configured slices (use this everywhere instead of a hardcoded 8).
-        public int SliceCount  => 8;
-
-        // Angular width of each slice in degrees.
-        public float SliceAngleDeg => 45f;
+        // Fixed at 8 — matches the provided wheel sprite asset which has exactly 8 segments.
+        // Update this constant (and re-test all spin maths) if the art ever changes.
+        private const int k_SliceCount = 8;
+        public int   SliceCount    => k_SliceCount;
+        public float SliceAngleDeg => 360f / k_SliceCount;
 
         public WheelSliceData[] GetSlicesForZone(int zoneNumber)
         {
             if (_rewardPool == null || _rewardPool.Length == 0)
             {
                 Debug.LogError($"[WheelConfigData] '{name}' has an empty reward pool! Cannot generate slices.");
-                return new WheelSliceData[8];
+                return new WheelSliceData[k_SliceCount];
             }
 
             var activePool = new System.Collections.Generic.List<RewardPoolEntry>();
@@ -94,7 +94,7 @@ namespace VertigoCase.Data
             if (activePool.Count == 0)
             {
                 Debug.LogError($"[WheelConfigData] No valid rewards found in the pool for '{name}'.");
-                return new WheelSliceData[8];
+                return new WheelSliceData[k_SliceCount];
             }
 
             // Seed deterministic random using zone number and name hash
@@ -102,7 +102,7 @@ namespace VertigoCase.Data
             UnityEngine.Random.State oldState = UnityEngine.Random.state;
             UnityEngine.Random.InitState(seed);
 
-            int count = 8;
+            int count = k_SliceCount;
             WheelSliceData[] generatedSlices = new WheelSliceData[count];
 
             // Randomly select the bomb slice index deterministically for this zone

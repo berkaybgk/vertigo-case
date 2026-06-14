@@ -12,8 +12,10 @@ namespace VertigoCase.UI
 
         public void UpdateCurrency(int cash, int gold)
         {
-            _ui_text_currency_cash_value.text = cash.ToString("N0");
-            _ui_text_currency_gold_value.text = gold.ToString("N0");
+            if (_ui_text_currency_cash_value != null)
+                _ui_text_currency_cash_value.text = cash.ToString("N0");
+            if (_ui_text_currency_gold_value != null)
+                _ui_text_currency_gold_value.text = gold.ToString("N0");
         }
 
         // ── Editor auto-binding ────────────────────────────────────────────────

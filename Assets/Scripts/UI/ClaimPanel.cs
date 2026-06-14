@@ -21,6 +21,11 @@ namespace VertigoCase.UI
         [Header("Reward Row Prefab")]
         [SerializeField] private RewardItemUI   _rewardItemPrefab;
 
+        [Header("Currency Reward References")]
+        [Tooltip("Must match the RewardData assigned in GameManager. Used to aggregate totals on the claim screen.")]
+        [SerializeField] private RewardData _cashRewardData;
+        [SerializeField] private RewardData _goldRewardData;
+
         [Header("Animation")]
         [SerializeField] private float _showDuration = 0.4f;
         [SerializeField] private float _hideDuration = 0.25f;
@@ -65,12 +70,6 @@ namespace VertigoCase.UI
             PopulateRewardRows(rewards);
         }
 
-        public void ShowGameOver()
-        {
-            _ui_text_claim_title_value.text = "All Rewards Lost!";
-            PopulateRewardRows(new List<CollectedReward>()); // empty
-        }
-
         // ── Private helpers ────────────────────────────────────────────────────
 
         private void PopulateRewardRows(IReadOnlyList<CollectedReward> rewards)
@@ -80,41 +79,31 @@ namespace VertigoCase.UI
                 if (row != null) Destroy(row.gameObject);
             _spawnedRows.Clear();
 
-            RewardData cashRewardData = null;
-            RewardData goldRewardData = null;
             int totalCash = 0;
             int totalGold = 0;
 
+            // Tally totals using SO reference comparison — no magic strings.
             foreach (var reward in rewards)
             {
-                if (reward.RewardData != null && reward.RewardData.Type == RewardType.Currency)
-                {
-                    if (string.Equals(reward.RewardData.RewardName, "Cash", System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        cashRewardData = reward.RewardData;
-                        totalCash += reward.Amount;
-                    }
-                    else if (string.Equals(reward.RewardData.RewardName, "Gold", System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        goldRewardData = reward.RewardData;
-                        totalGold += reward.Amount;
-                    }
-                }
+                if (reward.RewardData == null) continue;
+
+                if (_cashRewardData != null && reward.RewardData == _cashRewardData)
+                    totalCash += reward.Amount;
+                else if (_goldRewardData != null && reward.RewardData == _goldRewardData)
+                    totalGold += reward.Amount;
             }
 
-            // Spawn summary row for Cash if totalCash > 0
-            if (totalCash > 0 && cashRewardData != null)
+            if (totalCash > 0 && _cashRewardData != null)
             {
                 var row = Instantiate(_rewardItemPrefab, _ui_container_claim_rewards);
-                row.Initialize(new CollectedReward(cashRewardData, totalCash, 0), isLarge: true, showBackground: true);
+                row.Initialize(new CollectedReward(_cashRewardData, totalCash, 0), isLarge: true, showBackground: true);
                 _spawnedRows.Add(row);
             }
 
-            // Spawn summary row for Gold if totalGold > 0
-            if (totalGold > 0 && goldRewardData != null)
+            if (totalGold > 0 && _goldRewardData != null)
             {
                 var row = Instantiate(_rewardItemPrefab, _ui_container_claim_rewards);
-                row.Initialize(new CollectedReward(goldRewardData, totalGold, 0), isLarge: true, showBackground: true);
+                row.Initialize(new CollectedReward(_goldRewardData, totalGold, 0), isLarge: true, showBackground: true);
                 _spawnedRows.Add(row);
             }
         }
@@ -172,6 +161,10 @@ namespace VertigoCase.UI
 
             if (_rewardItemPrefab == null)
                 Debug.LogWarning("[ClaimPanel] No RewardItemUI prefab assigned.", this);
+            if (_cashRewardData == null)
+                Debug.LogWarning("[ClaimPanel] Cash RewardData not assigned — cash rewards won't display on the claim screen.", this);
+            if (_goldRewardData == null)
+                Debug.LogWarning("[ClaimPanel] Gold RewardData not assigned — gold rewards won't display on the claim screen.", this);
         }
 #endif
     }

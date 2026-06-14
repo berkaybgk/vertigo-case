@@ -68,17 +68,25 @@ namespace VertigoCase.Data
 
         public int TotalZones => _totalZones;
 
+        // Cached array to avoid allocating a new ZoneEntry[totalZones] on every access.
+        [System.NonSerialized] private ZoneEntry[] _cachedZones;
+
         public ZoneEntry[] Zones
         {
             get
             {
-                ZoneEntry[] result = new ZoneEntry[_totalZones];
-                for (int i = 0; i < _totalZones; i++)
-                {
-                    result[i] = GetZone(i);
-                }
-                return result;
+                if (_cachedZones == null || _cachedZones.Length != _totalZones)
+                    _cachedZones = BuildZonesArray();
+                return _cachedZones;
             }
+        }
+
+        private ZoneEntry[] BuildZonesArray()
+        {
+            var result = new ZoneEntry[_totalZones];
+            for (int i = 0; i < _totalZones; i++)
+                result[i] = GetZone(i);
+            return result;
         }
 
         // Returns the zone entry at the given 0-based index.
@@ -126,6 +134,7 @@ namespace VertigoCase.Data
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            _cachedZones = null; // Invalidate on any Inspector change so Zones re-builds next access.
             if (_bronzeWheel == null)
                 Debug.LogWarning($"[ZoneConfigData] Bronze Wheel is not assigned in '{name}'.", this);
             if (_silverWheel == null)

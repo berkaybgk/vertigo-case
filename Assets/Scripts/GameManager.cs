@@ -9,28 +9,27 @@ namespace VertigoCase.Core
 {
     public enum GameState
     {
-        Idle,             // Wheel loaded, awaiting player action
-        Spinning,         // Wheel is animating (input blocked)
-        RewardCollected,  // Successful spin — reward animation in progress
-        BombHit,          // Bomb landed — bomb animation in progress
-        RevivePrompt,     // Bomb animation done — revive popup visible
-        Claiming,         // Player chose to walk away — claim screen visible
-        GameOver          // Bomb + no revive — session reset
+        Idle,            // Wheel loaded, awaiting player action
+        Spinning,        // Wheel is animating (input blocked)
+        RewardCollected, // Successful spin — reward animation in progress
+        BombHit,         // Bomb landed — bomb animation in progress
+        RevivePrompt,    // Bomb animation done — revive popup visible
+        Claiming         // Player chose to walk away — claim screen visible
     }
 
     // State machine that owns the game session. Coordinates Core and UI.
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour, IGameManager
     {
         // ── Singleton ──────────────────────────────────────────────────────────
         public static GameManager Instance { get; private set; }
 
         // ── Inspector dependencies (wired in Editor) ───────────────────────────
         [Header("Core Dependencies")]
-        [SerializeField] private ZoneManager    _zoneManager;
+        [SerializeField] private ZoneManager     _zoneManager;
         [SerializeField] private WheelController _wheelController;
         [SerializeField] private UIManager       _uiManager;
 
-        // ── Currency (stub — replace with a proper CurrencyService if needed) ──
+        // ── Currency ───────────────────────────────────────────────────────────
         [Header("Starting Currency")]
         [SerializeField] private int _startingCash = 0;
         [SerializeField] private int _startingGold = 500;
@@ -39,6 +38,13 @@ namespace VertigoCase.Core
         private int _gold;
         public int Cash => _cash;
         public int Gold => _gold;
+
+        // ── Currency reward references (replaces magic-string name comparison) ──
+        [Header("Currency Reward References")]
+        [Tooltip("RewardData SO that represents Cash. Used to credit earnings on claim.")]
+        [SerializeField] private RewardData _cashRewardData;
+        [Tooltip("RewardData SO that represents Gold. Used to credit earnings on claim.")]
+        [SerializeField] private RewardData _goldRewardData;
 
         // ── State ──────────────────────────────────────────────────────────────
         private GameState _state = GameState.Idle;
@@ -49,25 +55,22 @@ namespace VertigoCase.Core
 
         // ── Events ─────────────────────────────────────────────────────────────
         // Fired on every state change. Args: (previousState, newState).
-        public event Action<GameState, GameState> OnStateChanged;
+        public event Action<GameState, GameState>           OnStateChanged;
 
         // Fired after the zone index changes (0-based new index).
-        public event Action<int> OnZoneChanged;
+        public event Action<int>                            OnZoneChanged;
 
         // Fired immediately when a non-bomb spin reward is resolved.
-        public event Action<CollectedReward> OnRewardCollected;
+        public event Action<CollectedReward>                OnRewardCollected;
 
         // Fired when the wheel lands on a bomb.
-        public event Action OnBombHit;
+        public event Action                                 OnBombHit;
 
         // Fired when the player confirms their walk-away claim.
         public event Action<IReadOnlyList<CollectedReward>> OnRewardsClaimed;
 
-        // Fired when a game-over is confirmed (bomb + no revive).
-        public event Action OnGameOver;
-
         // Fired when currency amounts change. (cash, gold)
-        public event Action<int, int> OnCurrencyChanged; // (cash, gold)
+        public event Action<int, int>                       OnCurrencyChanged;
 
         // ── Lifecycle ──────────────────────────────────────────────────────────
         private void Awake()
@@ -117,10 +120,7 @@ namespace VertigoCase.Core
             Transition(GameState.Claiming);
         }
 
-        public int GetCurrentReviveCost()
-        {
-            return _zoneManager.GetCurrentZone().ReviveCost;
-        }
+        public int GetCurrentReviveCost() => _zoneManager.GetCurrentZone().ReviveCost;
 
         // Attempt to pay the revive cost from gold reserves and continue. Returns false if cannot afford.
         public bool RequestRevive()
@@ -140,46 +140,35 @@ namespace VertigoCase.Core
             return true;
         }
 
+        // Give up clears all rewards and immediately resets the session back to zone 1.
+        // No separate GameOver state is needed — the session resets to Idle directly.
         public void RequestGiveUp()
         {
             if (_state != GameState.RevivePrompt) return;
-            _collectedRewards.Clear();
-            Transition(GameState.GameOver);
-            OnGameOver?.Invoke();
+            ResetSession();
         }
 
         public void ConfirmClaim()
         {
             if (_state != GameState.Claiming) return;
 
-            // Credit currency rewards to the player's account
+            // Credit currency rewards using SO reference comparison (no magic strings).
             foreach (var reward in _collectedRewards)
             {
-                if (reward.RewardData != null && reward.RewardData.Type == RewardType.Currency)
-                {
-                    if (string.Equals(reward.RewardData.RewardName, "Cash", StringComparison.OrdinalIgnoreCase))
-                    {
-                        _cash += reward.Amount;
-                    }
-                    else if (string.Equals(reward.RewardData.RewardName, "Gold", StringComparison.OrdinalIgnoreCase))
-                    {
-                        _gold += reward.Amount;
-                    }
-                }
-            }
-            OnCurrencyChanged?.Invoke(_cash, _gold);
+                if (reward.RewardData == null) continue;
 
+                if (reward.RewardData == _cashRewardData)
+                    _cash += reward.Amount;
+                else if (reward.RewardData == _goldRewardData)
+                    _gold += reward.Amount;
+            }
+
+            OnCurrencyChanged?.Invoke(_cash, _gold);
             OnRewardsClaimed?.Invoke(_collectedRewards);
             ResetSession();
         }
 
-        public void RestartAfterGameOver()
-        {
-            if (_state != GameState.GameOver) return;
-            ResetSession();
-        }
-
-        // ── Callbacks from animated systems ───────────────────────────────────
+        // ── Callbacks from animated systems ────────────────────────────────────
 
         // Called when the bomb animation finishes, so the revive prompt appears.
         public void NotifyBombAnimationComplete()
@@ -203,7 +192,7 @@ namespace VertigoCase.Core
             }
             else
             {
-                // All 60 zones completed — force claim
+                // All zones completed — force claim
                 Transition(GameState.Claiming);
             }
         }
@@ -261,6 +250,10 @@ namespace VertigoCase.Core
                 Debug.LogWarning("[GameManager] WheelController reference is missing.", this);
             if (_uiManager == null)
                 Debug.LogWarning("[GameManager] UIManager reference is missing.", this);
+            if (_cashRewardData == null)
+                Debug.LogWarning("[GameManager] Cash RewardData not assigned — currency claiming will not credit cash.", this);
+            if (_goldRewardData == null)
+                Debug.LogWarning("[GameManager] Gold RewardData not assigned — currency claiming will not credit gold.", this);
         }
 #endif
     }
