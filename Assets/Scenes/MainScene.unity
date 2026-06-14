@@ -3750,7 +3750,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 578336420}
   m_HandleRect: {fileID: 578336419}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3861,6 +3861,8 @@ MonoBehaviour:
   _uiManager: {fileID: 1275156297}
   _startingCash: 2000
   _startingGold: 5000
+  _cashRewardData: {fileID: 11400000, guid: f1eca9963e5734edeb936b644cabbde7, type: 2}
+  _goldRewardData: {fileID: 11400000, guid: 4396a9cd9ae7943089b07e1a73410728, type: 2}
 --- !u!4 &1275156300
 Transform:
   m_ObjectHideFlags: 0
@@ -3959,8 +3961,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1846372197}
   m_HandleRect: {fileID: 1846372196}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5113,6 +5115,7 @@ MonoBehaviour:
   _ui_container_zone_items: {fileID: 749587041}
   _zoneConfig: {fileID: 11400000, guid: bcc93377d147649b6a4778d4094012ab, type: 2}
   _visibleCount: 5
+  _cellSpacing: 25
   _slideDuration: 0.6
 --- !u!1 &1846372195
 GameObject:
@@ -5683,5 +5686,7 @@ MonoBehaviour:
   _ui_container_claim_anim: {fileID: 2042854191}
   _rewardItemPrefab: {fileID: 806415419906066546, guid: beeff10b2617a4b9480bdca5ee29d0fb,
     type: 3}
+  _cashRewardData: {fileID: 11400000, guid: f1eca9963e5734edeb936b644cabbde7, type: 2}
+  _goldRewardData: {fileID: 11400000, guid: 4396a9cd9ae7943089b07e1a73410728, type: 2}
   _showDuration: 0.4
   _hideDuration: 0.25
