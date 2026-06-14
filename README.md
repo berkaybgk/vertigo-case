@@ -1,10 +1,10 @@
 # Vertigo Games Case Study - Wheel of Fortune
 
-A polished Unity mobile game demonstrating a "Wheel of Fortune" progression loop. Players spin to collect various rewards, manage risk across escalating zones, and decide when to walk away with their loot or risk it all.
+A Unity mobile game demonstrating a "Wheel of Fortune" progression loop. Players spin to collect various rewards, manage risk across escalating zones, and decide when to walk away with their loot or risk it all.
 
 ---
 
-## 🔗 Demo & Assets
+## Demo & Assets
 * **Demo Video & Screenshots:** [Google Drive Folder](https://drive.google.com/drive/folders/1uy2BkaxFzPJLxis3_wh6MufZfubGx6uq?usp=sharing)
 * **Latest APK Build:** Available under the [GitHub Releases](https://github.com/berkaybgk/vertigo-case/releases) page of this repository.
 
@@ -14,7 +14,7 @@ A polished Unity mobile game demonstrating a "Wheel of Fortune" progression loop
 
 ---
 
-## 🎮 Gameplay Features
+## Gameplay Features
 
 * **Escalating Zones:** Players progress through sequential zones. Every zone features a wheel spin with distinct rewards.
 * **Safe vs. Danger Zones:** Special milestone zones guarantee safe spins (no bombs), while regular zones introduce risk.
@@ -26,18 +26,7 @@ A polished Unity mobile game demonstrating a "Wheel of Fortune" progression loop
 
 ---
 
-## 🛠 Software Architecture & Patterns
-
-The codebase is built on **SOLID principles** and clean architectural patterns optimized for Unity:
-
-* **Interface Decoupling (`IGameManager`):** The core game logic is separated via a clear interface, allowing components to interact with the game state without direct dependencies, facilitating testability.
-* **Event-Driven UI:** UI panels (such as `ClaimPanel`, `TopBarUI`, and `ZoneIndicatorUI`) subscribe to game events, ensuring a decoupled architecture where the UI only responds to state changes rather than polling.
-* **Scriptable Object Configurations:** Game values, wheel items, slice distributions, and zone weights are driven by custom ScriptableObjects (`WheelConfigData`, `ZoneConfigData`), allowing easy balancing changes without modifying code.
-* **DOTween Integrations:** Smooth micro-animations for UI elements, wheel rotations, and panel scaling to offer a premium, game-feel experience.
-
----
-
-## 📦 How to Build the APK
+## How to Build the APK
 
 A custom editor build script is included in the project to compile the Android APK in a single click:
 
@@ -51,7 +40,7 @@ A custom editor build script is included in the project to compile the Android A
 
 ---
 
-## 🚀 How to Install and Run the APK
+## How to Install and Run the APK
 
 1. Go to the [Releases](https://github.com/berkaybgk/vertigo-case/releases) section of this GitHub repository.
 2. Download the `vertigo-case.apk` file on your Android device (or copy it from your computer).
