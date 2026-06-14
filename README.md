@@ -32,7 +32,7 @@ A custom editor build script is included in the project to compile the Android A
 
 1. Open the project in the **Unity Editor (version 2021.3.45f1)**.
 2. In the top Unity menu bar, select **Build -> Build Android APK**.
-3. The script will automatically configure the build settings for Android, target the `SampleScene`, compile the APK, and save it in the `<Project-Root>/Builds/` folder.
+3. The script will automatically configure the build settings for Android, target the `MainScene`, compile the APK, and save it in the `<Project-Root>/Builds/` folder.
 4. Once completed, your finder/explorer window will open directly to the generated `vertigo-case.apk`.
 
 > [!NOTE]
