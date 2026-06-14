@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa46a95184334411e8cf6bdffaad3b4d, type: 3}
+  m_Name: ZoneConfigData
+  m_EditorClassIdentifier: 
+  _bronzeWheel: {fileID: 11400000, guid: 637437d31c7564660b0e5ac1a701404d, type: 2}
+  _silverWheel: {fileID: 11400000, guid: f9de1a5152c114698a046717bf90c617, type: 2}
+  _goldWheel: {fileID: 11400000, guid: 2a3b49e987b5143c1a146fdcacd3e557, type: 2}
+  _totalZones: 60
+  _baseMultiplier: 1
+  _multiplierIncrementPerZone: 0.02
+  _safeZoneMultiplierBonus: 0
+  _superZoneMultiplierBonus: 0
+  _baseReviveCost: 10
+  _reviveCostIncrement: 10

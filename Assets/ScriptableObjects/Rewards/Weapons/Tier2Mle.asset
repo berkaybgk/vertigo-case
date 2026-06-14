@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de88a43677744346ba445858d2940ce, type: 3}
+  m_Name: Tier2Mle
+  m_EditorClassIdentifier: 
+  _rewardName: Tier2Mle
+  _icon: {fileID: 21300000, guid: 4b7a12468a74c40fc969d9e60564c8d7, type: 3}
+  _rewardType: 2
+  _baseAmount: 1
+  _tier: 2

@@ -1,0 +1,91 @@
+# This .gitignore file should be placed at the root of your Unity project
+
+############################
+# Unity generated folders
+############################
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+############################
+# User-specific settings
+############################
+UserSettings/
+
+############################
+# Visual Studio / Rider / VSCode
+############################
+.vs/
+.idea/
+.vscode/
+*.slnx
+
+
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+############################
+# Unity meta backup files
+############################
+*.bak
+*.backup
+*.old
+
+############################
+# OS generated files
+############################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+############################
+# Crash reports
+############################
+sysinfo.txt
+
+############################
+# Addressables
+############################
+Assets/AddressableAssetsData/*/*.bin*
+
+############################
+# Android / iOS generated
+############################
+.gradle/
+*.apk
+*.aab
+*.keystore
+
+############################
+# Temporary packages
+############################
+*.unitypackage
+
+############################
+# DOTween (optional)
+############################
+# Uncomment if DOTween cache causes noise
+# Assets/Plugins/Demigiant/DOTween/Modules/
+
+############################
+# Ignore generated builds
+############################
+ExportedObj/
+.consulo/
+

@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0012079205e7443aaaeadb76760e5c71, type: 3}
+  m_Name: WheelConfig_Silver
+  m_EditorClassIdentifier: 
+  _wheelType: 1
+  _rewardPool:
+  - _reward: {fileID: 11400000, guid: f1eca9963e5734edeb936b644cabbde7, type: 2}
+    _weight: 20
+    _minAmount: 200
+    _maxAmount: 300
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 4396a9cd9ae7943089b07e1a73410728, type: 2}
+    _weight: 10
+    _minAmount: 20
+    _maxAmount: 40
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 40bb28ca9f5744716ad44fea3c82daa0, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 1
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 0e36cd44c6e5443a68ca61daa76669ab, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 1
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 68b3ca907c0eb4a34b84a73d11c4466e, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 1
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: ecaf1584c14674e70af6cd3b095defc8, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: ed2bae21a7a6f450a88527c83f132b29, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 384697f4a4a474805957f31fee9ce27f, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 0b60b2e9772f54ae68503e2764ba6406, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 5c75c9029f6e245298e3641bea4e65f0, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 6605cd071800d4de3a24c4a15c4959c7, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 01eaa70dc8b774cdfb95055afe82dfad, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: cd201ab2b51054fecb0cabbad094b694, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: c6a1e1a64a13b48ca8599417019c98df, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 24058be9bda96480bb72bd2c1c3d6f8b, type: 2}
+    _weight: 10
+    _minAmount: 1
+    _maxAmount: 10
+    _minZone: 0
+    _maxZone: 60
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  _wheelBase: {fileID: 21300000, guid: 41e264fc9e6c04c53927e47992fae083, type: 3}
+  _wheelIndicator: {fileID: 21300000, guid: df337198afde940b9afcf2d9cfb05c40, type: 3}
+  _slices:
+  - _reward: {fileID: 11400000, guid: 58e4278ec46c449c3a116b782a87e920, type: 2}
+    _amount: 1
+    _isBomb: 0
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 4396a9cd9ae7943089b07e1a73410728, type: 2}
+    _amount: 10
+    _isBomb: 0
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: f1eca9963e5734edeb936b644cabbde7, type: 2}
+    _amount: 140
+    _isBomb: 0
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: de989dc2b40f447018c561efed363a5c, type: 2}
+    _amount: 1
+    _isBomb: 0
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 40bb28ca9f5744716ad44fea3c82daa0, type: 2}
+    _amount: 1
+    _isBomb: 0
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: 58e4278ec46c449c3a116b782a87e920, type: 2}
+    _amount: 2
+    _isBomb: 0
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: f1eca9963e5734edeb936b644cabbde7, type: 2}
+    _amount: 200
+    _isBomb: 0
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  - _reward: {fileID: 11400000, guid: f1eca9963e5734edeb936b644cabbde7, type: 2}
+    _amount: 100
+    _isBomb: 0
+    _sliceColor: {r: 0, g: 0, b: 0, a: 0}
+  _spinDuration: 4
+  _minRotations: 4
